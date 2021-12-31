@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.7.2/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link href="scripting/jquery-ui.css" rel="stylesheet">
+
+    <title>LEDUN Banking</title>
+</head>
+
+<body>
+
+    <div class="container p-2" id="cardSelector" style="max-width:500px; min-height:650px; display:none">
+        <div class="row" style="position: relative; top: 54px;">
+            <div class="col-12 text-center p-2">
+                <img src="images/logo1.png" class="img-fluid" id="logo" style="width: 270px;">
+            </div>
+        </div>
+        <br>
+
+        <h1 style="color: aliceblue; text-align: center;"><i class="bi bi-bank"></i> Hoşgeldin</h1>
+        <h5 style="color: aliceblue; text-align: center;"><i class="bi bi-check-all"></i> Kredi kartınızı kullanarak
+            işlem yapabilirsiniz</h5>
+        <div class="row" style="position: relative; top: 54px; left: 2%;">
+            <div class="col-12" id="cardsDisplay">
+                <div class="card mb-3 mx-auto"
+                    style="width:100%; background:#282f38; box-shadow: 0 3px 10px rgb(0 0 0 / 0.2); color: #dcdcdc">
+                    <div class="row no-gutters">
+                        <div class="col-2 my-auto">
+                            <img src="images/visa.png" class="card-img" alt="">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body p-0">
+                                <h5 class="card-title pb-0 pt-1 pl-2 mb-0" id="cardOwner">Card title</h5>
+                                <p class="card-text pl-2"><small class="text-muted"><span
+                                            id="cardType">Visa</span><br><span
+                                            id="cardNumber">************4354</span></small></p>
+                            </div>
+                        </div>
+                        <div class="col-2 my-auto pr-1">
+                            <button class="btn btn-primary btn-sm btn-block">Kullan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="position: relative; top: 54px;">
+            <div class="col-12 text-center">
+                <button class="btn btn-danger" id="cancelTransaction" style=" color: white">İşlemi İptal Et</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container p-2" id="pinContainer" style="max-width:500px; display:none;">
+        <div class="row">
+            <div class="col-12 text-center p-2">
+                <img src="images/logo1.png" class="img-fluid" id="logo2" style="width: 270px;">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-center p-2" style="font-size: 16px; color: white;"><i
+                    class="bi bi-chat-right-text-fill"></i> ATM'ye erişmek için lütfen banka kartı şifrenizi girin.
+            </div>
+        </div>
+        <div class="row m-1">
+            <div class="col-12 pt-2 pb-4"><input type="password" class="form-control text-center" id="pinCode"
+                    style="height:60px; line-height:60px; font-size:30px;" readonly="readonly"></div>
+        </div>
+        <div class="row m-1" style="position: relative; top: 5px;">
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="1">1</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="2">2</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="3">3</button></div>
+        </div>
+        <div class="row m-1" style="position: relative; top: 5px;">
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="4">4</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="5">5</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="6">6</button></div>
+        </div>
+        <div class="row m-1" style="position: relative; top: 5px;">
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="7">7</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="8">8</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="9">9</button></div>
+        </div>
+
+        <div class="row m-1" style="position: relative; top: 5px;">
+            <div class="col-4 text-center"><button class="btn btn-block btn-danger" data-act="enterNumber"
+                    data-number="CANCEL"><i class="bi bi-x-lg"></i> İptal Et</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-info" data-act="enterNumber"
+                    data-number="0">0</button></div>
+            <div class="col-4 text-center"><button class="btn btn-block btn-success" data-act="enterNumber"
+                    data-number="ACCEPT" id="acceptButton"><i class="bi bi-check2-circle"></i> Kabul Et</button></div>
+        </div>
+        <br>
+        <div class="row m-1" style="position: relative; top: 5px;">
+            <div class="col-12 text-center"><button class="btn btn-block btn-warning" data-act="enterNumber"
+                    data-number="CLEAR"><i class="bi bi-shuffle"></i> Temizle</button></div>
+        </div>
+        <br>
+        <div class="row" style="position: relative; top: 10px;">
+            <div class="col-12 text-center p-2" style="font-size: 12px; color: white; margin-bottom: 50px;"></div>
+        </div>
+    </div>
+
+    <div class="container p-2" id="ATMContainer">
+        <div class="row">
+            <div class="col-3">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="images/logo1.png" class="img-fluid">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="nav flex-column nav-pills p-2 shadow-lg" id="v-pills-tab-atm" role="tablist"
+                                aria-orientation="vertical" style="background:#282f38; border-radius: 15px;">
+                                <a class="nav-link active m-1" id="bankingHomeATM-tab" data-toggle="pill"
+                                    href="#bankingHomeATM" role="tab" aria-controls="bankingHomeATM"
+                                    aria-selected="true"><i class="bi bi-person-square"></i> Hesap</a>
+                                <a class="nav-link m-1" id="bankingWithdrawATM-tab" data-toggle="pill"
+                                    href="#bankingWithdrawATM" role="tab" aria-controls="bankingWithdrawATM"
+                                    aria-selected="false"><i class="bi bi-bank"></i> Para Çekme</a>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="card mb-3" style="background:#282f38; color: #ffffff; border-radius: 15px">
+                                <div class="card-header"><i class="bi bi-bookmarks-fill"></i> Hesap Bilgileri</div>
+                                <div class="card-body">
+                                    <p class="card-text"><small>
+                                            <i class="bi bi-journal-bookmark-fill"></i> Hesap İsmi: <span
+                                                id="accountNameATM"></span><br>
+                                            <i class="bi bi-body-text"></i> Hesap Numarası: <span
+                                                id="accountNumberATM"></span><br>
+                                        </small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <button class="btn btn-block btn-danger mt-2" id="logoffbuttonatm"><i
+                                    class="bi bi-x-lg"></i> Çıkış Yap</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-9">
+                <div class="tab-content p-2 shadow-lg" id="v-pills-tabContent-atm"
+                    style="max-height:780px; min-height:780px;">
+                    <div class="tab-pane fade active show" id="bankingHomeATM" role="tabpanel"
+                        aria-labelledby="enteringPinTab">
+                        <div class="container-fluid p-2" style="position: relative; top: 54px;">
+                            <div class="row">
+                                <div class="col-12 title">
+                                    <h3 style="font-size: 35px;"><i class="bi bi-bookmarks-fill"></i> Hoşgeldin <span
+                                            id="customerNameATM"></span>
+                                    </h3>
+                                </div>
+
+                            </div>
+                            <div class="row" id="successRowATM" style="display:none;">
+                                <div class="col-12">
+                                    <div class="alert alert-success" role="alert" id="successMessageATM"></div>
+                                </div>
+                            </div>
+                            <div class="row" style="position: relative; top: 15px; ">
+                                <div class="col-6">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: #fff; border-radius: 25px;">
+                                        <div class="card-header"><i class="bi bi-wallet-fill"></i> Banka Durumu</div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="currentBalanceATM" style=" color: #28a745"></h5>
+                                            <p class="card-text">Şu anda hesabınızda harcayabileceğiniz tutar</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: #fff; border-radius: 25px;">
+                                        <div class="card-header"><i class="bi bi-cash-stack"></i> Nakit Para Durumu
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="currentCashBalanceATM" style=" color: #28a745">
+                                            </h5>
+                                            <p class="card-text">Hesabınızda ki nakit para durumu</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="position: relative; top: 15px;">
+                                <div class="col-12">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: white; border-radius: 25px;">
+                                        <div class="card-header"><i class="bi bi-cash-stack"></i> Hızlı Aksiyonlar</div>
+                                        <div class="card-body">
+                                            <div class="container-fluid">
+                                                <div class="row m-1">
+                                                    <div class="col-6"><button class="btn btn-secondary2 btn-block"
+                                                            data-action="ATMwithdraw" data-amount="100"><i
+                                                                class="bi bi-cash-stack"></i> Para Çek $100</button>
+                                                    </div>
+                                                    <div class="col-6"><button class="btn btn-secondary2 btn-block"
+                                                            data-action="ATMwithdraw" data-amount="1000"><i
+                                                                class="bi bi-cash-stack"></i> Para Çek $1000</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="card-footer"><p class="card-text"><small>These are some quick actions that will enable a quicker and smoother process.</small></p></div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="bankingWithdrawATM" role="tabpanel"
+                        aria-labelledby="bankingWithdrawATM-tab">
+                        <div class="container-fluid p-2" style="position: relative; top: 54px;">
+                            <div class="row">
+                                <div class="col-12 title">
+                                    <h3 style="font-size: 24px; color: white;"><i class="bi bi-plus-lg"></i> Para Çek
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                            </div>
+                            <div class="row" style="position: relative; top: 15px;">
+                                <div class="col-6">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: #fff; border-radius: 25px;">
+                                        <div class="card-header"><i class="bi bi-wallet-fill"></i> Banka Durumu</div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="currentBalanceATM1" style=" color: #28a745"></h5>
+                                            <p class="card-text">Şu anda hesabınızda harcayabileceğiniz tutar</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: #fff; border-radius: 25px;">
+                                        <div class="card-header"><i class="bi bi-cash-stack"></i> Nakit Para Durumu
+                                        </div>
+                                        <div class="card-body">
+                                            <h5 class="card-title" id="currentCashBalance1ATM" style=" color: #28a745">
+                                            </h5>
+                                            <p class="card-text">Hesabınızda ki nakit para durumu</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="position: relative; top: 15px;">
+                                <div class="col-12">
+                                    <div class="card mb-3"
+                                        style="background:#282f38; color: white; border-radius: 25px;">
+                                        <div class="card-body">
+                                            <div class="container-fluid">
+                                                <div class="row" id="withdrawATMError" style="display:none;">
+                                                    <div class="col-12">
+                                                        <div class="alert alert-danger" role="alert"
+                                                            id="withdrawATMErrorMsg">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 content">Lütfen aşağıda çekmek istediğiniz tutarı
+                                                        belirtin!</div>
+                                                </div>
+                                                <div class="row mt-2">
+                                                    <div class="col-3 my-auto"><label
+                                                            for="withdrawAmounATM"><small>Miktar</small></label></div>
+                                                    <div class="col-9"><input type="number" placeholder="$"
+                                                            class="form-control" id="withdrawAmountATM"
+                                                            name="withdrawAmountATM"></div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="position: relative; top: 20px;">
+                                <div class="col-12 text-center"><button style="font-size: 18px;"
+                                        class="btn btn-secondary2" id="initiateWithdrawATM"><i
+                                            class="bi bi-plus-lg"></i> Para Çek</button></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="bankingStatementATM" role="tabpanel"
+                        aria-labelledby="bankingStatementATM-tab">
+                        <div class="container-fluid p-2">
+                            <div class="row">
+                                <div class="col-12 title">
+                                    <h3>Current Account Statement</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card bg-light mb-3">
+                                        <div class="card-body">
+                                            <table id="currentStatementATM" class="display" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Description</th>
+                                                        <th class="text-center">Withdrawn</th>
+                                                        <th class="text-center">Deposit</th>
+                                                        <th class="text-center">New Balance</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="currentStatementContentsATM">
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="scripting/external/jquery/jquery.js"></script>
+    <script src="scripting/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript"
+        src="https://cdn.datatables.net/v/bs4/dt-1.10.18/b-1.5.6/fc-3.2.5/kt-2.5.0/r-2.2.2/datatables.min.js"></script>
+    <script src="qb-atms.js"></script>
+</body>
+
+</html>
